@@ -91,13 +91,13 @@ def add_task():
         # check if the post request has the file part
         if 'file' not in request.files:
             flash('No file part')
-            return 'No file part'
+            return {'success': False, 'msg': 'No file part'}
         file = request.files['file']
         # if user does not select file, browser also
         # submit an empty part without filename
         if file.filename == '':
             flash('No selected file')
-            return 'No selected file'
+            return {'success': False, 'msg': 'No selected file'}
         if file and allowed_file(file.filename):
 
             # adding task to database
@@ -114,10 +114,10 @@ def add_task():
                     os.mkdir(save_dir)
                 file.save(os.path.join(save_dir, request.form['task-name'] + '.xlsx'))
 
-                return 'Task created...'
+                return {'success': True, 'msg': 'Task created successfully...'}
 
             except sqlite3.IntegrityError:
-                return 'The task name already exists! Choose another task name...'
+                return {'success': False, 'msg': 'The task name already exists! Choose another task name...'}
 
 @app.route('/analysis/<string:file_name>/<int:step>')
 def analysis(file_name, step):

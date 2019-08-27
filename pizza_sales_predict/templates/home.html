@@ -37,7 +37,10 @@
                   <td>(( task.end ))</td>
                   <td>(( task.status ))</td>
                   <td>(( task.step ))</td>
-                  <td><button class="btn btn-primary table-button" :id="index" onclick="startAnalys(this.id)">(( task.operation ))</button></td>
+                  <td>
+                    <button v-if="task.status!='Continue'" class="btn btn-primary table-button" :id="index" onclick="startAnalys(this.id)">Start</button>
+                    <button v-if="task.status=='Continue'" class="btn btn-danger table-button" :id="index" onclick="stopAnalys(this.id)">Stop</button>
+                  </td>
                   <td><button :id="index" onclick="showResult(this.id); document.getElementById('task-result-tab').click()" class="btn btn-success table-button result">Result</button></td>
               </tr>
             </tbody>
@@ -59,8 +62,9 @@
             <input type="number" class="form-control form-control-lg" id="step" placeholder="Prediction step ...">
         </div>
     
-        <h6 v-if="add_task.error" style="color: red;">(( add_task.error ))</h6>
-        <h6 v-if="add_task.success" style="color: green;">Task created successfully...</h6>
+        <h6 v-if="!add_task.success" style="color: red;">(( add_task.message ))</h6>
+        <h6 v-if="add_task.success" style="color: green;">(( add_task.message ))</h6>
+        </br>
     
         <button type="button" onclick="addTask()" class="btn btn-primary form-control-lg" style="width: 100%;">Create</button>
       </form>
@@ -100,8 +104,8 @@
       delimiters: ["((", "))"], 
       data: {
         add_task:{
-          error: undefined,
-          success: undefined
+          success: undefined,
+          message: undefined
         },
         title: 'Task List',
         tasks: JSON.parse(document.getElementById('d_elem').value),
@@ -116,25 +120,21 @@
 
   function addTask(){
     var file = document.getElementById('file').files[0];
-    console.log(file)
+    var task_name = document.getElementById('task-name').value;
+    var step = document.getElementById('step').value;
     var fd = new FormData();
     fd.append("file", file, file.name)
-    fd.append("task-name", document.getElementById('task-name').value);
-    fd.append("step", document.getElementById('step').value);
+    fd.append("task-name", task_name);
+    fd.append("step", step);
     // These extra params aren't necessary but show that you can include other data.
     var xhr = new XMLHttpRequest();
     xhr.open('POST', '/add-task', true);
-    
-    xhr.upload.onprogress = function(e) {
-      if (e.lengthComputable) {
-        var percentComplete = (e.loaded / e.total) * 100;
-        console.log(percentComplete + '% uploaded');
-      }
-    };
     xhr.onload = function() {
         if (this.readyState == 4 && this.status == 200) {
-          app.add_task.success = true
-        console.log('Server got:', this.response);
+          var res = JSON.parse(this.response);
+          app.add_task.success = res.success;
+          app.add_task.message = res.msg;
+          app.tasks.push({name: task_name, file_name: file.name, step: step, user: undefined, start: 'NULL', end: 'NULL', status: 'Not started', operation: 'Start'});
       };
     };
     xhr.send(fd);
