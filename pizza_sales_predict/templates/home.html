@@ -98,6 +98,14 @@
 {% block scripts %}
 
 <script>
+
+  var ts
+  try {
+    ts = JSON.parse(document.getElementById('d_elem').value)
+  } catch (error) {
+    ts = []
+  }
+
   window.addEventListener('load', () => {
     this.app = new Vue({
       el: '#app',
@@ -108,7 +116,7 @@
           message: undefined
         },
         title: 'Task List',
-        tasks: JSON.parse(document.getElementById('d_elem').value),
+        tasks: ts,
         result: {
           id: undefined,
           category: '',
