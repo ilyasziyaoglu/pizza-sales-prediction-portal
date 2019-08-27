@@ -19,7 +19,7 @@ Then install the following libraries with "python pip" or another package manage
 
 ## Run
 
-Go to flask directory in the project folder via CMD or Terminal and run below instruction.
+Go to "pizza_sales_predict" directory in the project folder via CMD or Terminal and run below instruction.
 
 ```
     python app.py
