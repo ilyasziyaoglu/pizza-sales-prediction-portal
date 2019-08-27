@@ -19,8 +19,18 @@
             <div class="collapse navbar-collapse" id="navbarText">
                 <ul class="navbar-nav mr-auto">
                 </ul>
-                <span class="navbar-text">
-                  <h4 style="color: white; cursor: pointer;">{{ user }}</h4>
+                <span id="account-section" class="navbar-text">
+                    <div v-if="user" class="btn-group" style="min-width: 250px;">
+                        <button class="btn btn-secondary btn-lg" type="button">(( user ))</button>
+                        <button style="max-width: 40px;" type="button" class="btn btn-lg btn-secondary dropdown-toggle dropdown-toggle-split" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            <span class="sr-only">Toggle Dropdown</span>
+                        </button>
+                        <div class="dropdown-menu dropdown-menu-right">
+                            <a class="dropdown-item" style="color: black;" href="#">Profile</a>
+                            <div class="dropdown-divider"></div>
+                            <a class="dropdown-item" style="color: black;" href="/quite">Quit</a>
+                        </div>
+                    </div>
                 </span>
             </div>
         </nav>
@@ -36,8 +46,21 @@
         
     </div>
 
+
     <!-- Vue -->
     <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+
+
+    <input id="user" type="text" hidden value="{{user}}">
+    <script>
+    new Vue({
+        el: '#account-section',
+        delimiters: ['((', '))'],
+        data: {
+            user: document.getElementById('user').value
+        }
+    })
+    </script>
 
     <!-- jQuery -->
     <script src="./static/js/jquery.min.js"></script>

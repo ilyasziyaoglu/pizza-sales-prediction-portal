@@ -2,17 +2,18 @@
 
 {% block content %}
 
-<form method="POST" action="/login/submit" style="display: block; margin: auto; width: 40%;">
+<form method="POST" action="/register/submit" style="display: block; margin: auto; width: 40%;">
   <div class="form-group">
     <input type="text" class="form-control" name="uname" placeholder="Username">
   </div>
   <div class="form-group">
     <input type="password" class="form-control" name="pass" placeholder="Password">
   </div>
+  <div class="form-group">
+    <input type="text" class="form-control" name="full_name" placeholder="Fullname">
+  </div>
   <h5 style="color: red;">{{ error }}</h5>
-  <button type="submit" class="btn btn-primary" style="width: 100%;">Login</button>
-  </br>
-  <a href="/register"><button type="button" class="btn btn-primary" style="width: 100%;">Register</button></a>
+  <button type="submit" class="btn btn-primary" style="width: 100%;">Register</button>
 </form>
 
 {% endblock %}

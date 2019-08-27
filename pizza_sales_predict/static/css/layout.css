@@ -2,11 +2,6 @@
     color: green !important;
 }
 
-.title {
-    text-align: center;
-    color: gray;
-}
-
 .table-button {
     width: 100%;
     text-decoration: none;
@@ -15,4 +10,18 @@
 
 .form-group {
     margin: 25px auto !important;
+}
+
+.navbar-dark .navbar-text a {
+    color: black !important;
+}
+
+form {
+    width: 40% !important;
+    display: block;
+    margin: auto;
+}
+
+button {
+    width: 100%;
 }

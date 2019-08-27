@@ -26,6 +26,28 @@ app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 def index():
     return redirect(url_for('login'))
 
+@app.route('/register')
+def register():
+    if request.args:
+        return render_template('register.html', error = request.args['err'])
+    else:
+        return render_template('register.html')
+
+@app.route('/register/submit', methods=['POST'])
+def register_submit():
+    conn = sqlite3.connect('pizzazza.db')
+    c = conn.cursor()
+    query = "insert into users values('" + request.form['uname'] + "', '" + request.form['pass'] + "', '" + request.form['full_name'] + "')"
+    try:
+        c.execute(query)
+    except sqlite3.IntegrityError:
+        return redirect(url_for('register', err='Username asready exists! Try another...'))
+
+    conn.commit()
+    conn.close()
+
+    return redirect(url_for('login'))
+
 @app.route('/login')
 def login():
     if request.args:
@@ -72,16 +94,6 @@ def home():
         records = new_records[:len(new_records)-1] + ']'
         print(records)
         return render_template('home.html', user=user['full_name'], tasks=records)
-    
-    return redirect(url_for('login'))
-
-@app.route('/new-task')
-def new_task():
-    if g.user:
-        if len(request.args) == 2:
-            return render_template('new_task.html', error = request.args['err'], user=user['full_name'])
-        else:
-            return render_template('new_task.html', user=user['full_name'])
     
     return redirect(url_for('login'))
 
@@ -179,6 +191,13 @@ def analysis(file_name, step):
 
         return {"new_sales": dfs_new.to_json(orient='split'), "old_sales": df.to_json(orient='split')}
     
+    return redirect(url_for('login'))
+
+@app.route('/quite')
+def quite():
+    session['user'] = None
+    g.user = None
+
     return redirect(url_for('login'))
 
 if __name__ == '__main__':
