@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Pizzazza Login</title>
+
+    <link rel="stylesheet" href="./static/css/login.css">
+    <link rel="stylesheet" href="./static/css/bootstrap.min.css">
+</head>
+<body>
+    <div class="container">
+        <form method="POST" action="/login/submit">
+          <div class="form-group">
+            <input type="text" class="form-control" name="uname" placeholder="Username">
+          </div>
+          <div class="form-group">
+            <input type="password" class="form-control" name="pass" placeholder="Password">
+          </div>
+          <h5 style="color: red;">{{ error }}</h5>
+          <button type="submit" class="btn btn-primary">Login</button>
+        </form>
+    </div>
+
+</body>
+</html>
