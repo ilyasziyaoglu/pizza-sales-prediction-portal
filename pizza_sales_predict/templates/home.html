@@ -118,12 +118,12 @@
     var file = document.getElementById('file').files[0];
     console.log(file)
     var fd = new FormData();
-    fd.append("file", file)
+    fd.append("file", file, file.name)
     fd.append("task-name", document.getElementById('task-name').value);
     fd.append("step", document.getElementById('step').value);
     // These extra params aren't necessary but show that you can include other data.
     var xhr = new XMLHttpRequest();
-    xhr.open('GET', '/add-task', true);
+    xhr.open('POST', '/add-task', true);
     
     xhr.upload.onprogress = function(e) {
       if (e.lengthComputable) {

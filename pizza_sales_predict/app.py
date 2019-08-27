@@ -85,7 +85,7 @@ def new_task():
     
     return redirect(url_for('login'))
 
-@app.route('/add-task')
+@app.route('/add-task', methods=["POST"])
 def add_task():
     if g.user:
         # check if the post request has the file part
